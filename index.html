@@ -17,6 +17,11 @@
         <p>Completa la siguiente información para que podamos emitir tu factura electrónica. Los campos marcados con <span class="required">*</span> son obligatorios.</p>
       </div>
 
+      <div class="notice">
+        <span>📌</span>
+        <p>Cuentas con <strong>hasta 3 días antes de que termine el mes</strong> para solicitar tu factura. Pasado ese plazo, la solicitud se facturará a <strong>público en general</strong>.</p>
+      </div>
+
       <div class="alert error" id="alertError"></div>
 
       <!-- Esta versión no usa servidor propio: los datos y archivos van a un
@@ -87,7 +92,7 @@
         </div>
 
         <div class="field">
-          <label>🧾 Constancia de Situación Fiscal <span class="required">*</span></label>
+          <label>🧾 Constancia de Situación Fiscal <span class="opt">(no mayor a 3 meses)</span> <span class="required">*</span></label>
           <div class="upload-box" id="boxCSF">
             <input type="file" id="csf" name="csf" accept=".pdf,.jpg,.jpeg,.png" required />
             <div class="u-icon">📋</div>
