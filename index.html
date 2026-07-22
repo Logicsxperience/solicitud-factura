@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Solicitud de Factura</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <div class="wrapper">
+    <div class="card">
+
+      <div class="header">
+        <span class="icon">🧾</span>
+        <h1>Solicitud de Factura</h1>
+        <p>Completa la siguiente información para que podamos emitir tu factura electrónica. Los campos marcados con <span class="required">*</span> son obligatorios.</p>
+      </div>
+
+      <div class="alert error" id="alertError"></div>
+
+      <!-- Esta versión no usa servidor propio: los datos y archivos van a un
+           script de Google Apps Script que los guarda en Drive y Sheets -->
+      <form id="invoiceForm" novalidate>
+
+        <!-- Campo honeypot: invisible para personas, si un bot lo llena se descarta el envío -->
+        <div class="hp-field" aria-hidden="true">
+          <label for="website">No llenar este campo</label>
+          <input type="text" id="website" name="website" tabindex="-1" autocomplete="off" />
+        </div>
+        <!-- Marca de tiempo de carga, usada para detectar envíos automatizados demasiado rápidos -->
+        <input type="hidden" id="loadedAt" value="" />
+
+        <div class="field">
+          <label for="nombre">👤 Nombre completo <span class="required">*</span></label>
+          <input type="text" id="nombre" name="nombre" required placeholder="Ej. Juan Pérez López" />
+          <span class="error-text">Por favor ingresa tu nombre completo.</span>
+        </div>
+
+        <div class="row">
+          <div class="field">
+            <label for="correo">📧 Correo electrónico <span class="required">*</span></label>
+            <input type="email" id="correo" name="correo" required placeholder="correo@ejemplo.com" />
+            <span class="error-text">Ingresa un correo electrónico válido.</span>
+          </div>
+          <div class="field">
+            <label for="telefono">📱 Teléfono <span class="opt">(opcional)</span></label>
+            <input type="tel" id="telefono" name="telefono" placeholder="10 dígitos" />
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="field">
+            <label for="folio">🔖 Folio de reserva <span class="required">*</span></label>
+            <input type="text" id="folio" name="folio" required placeholder="Ej. LXP-00123" />
+            <span class="error-text">Ingresa el folio de tu reserva.</span>
+          </div>
+          <div class="field">
+            <label for="fechaPago">📅 Fecha del pago <span class="required">*</span></label>
+            <input type="date" id="fechaPago" name="fechaPago" required />
+            <span class="error-text">Selecciona la fecha del pago.</span>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="field">
+            <label for="monto">💰 Monto pagado <span class="required">*</span></label>
+            <input type="number" id="monto" name="monto" step="0.01" min="0.01" required placeholder="0.00" />
+            <span class="error-text">Ingresa el monto pagado.</span>
+          </div>
+          <div class="field">
+            <label for="metodoPago">💳 Método de pago <span class="required">*</span></label>
+            <select id="metodoPago" name="metodoPago" required>
+              <option value="" disabled selected>Selecciona una opción</option>
+              <option value="Tarjeta">Tarjeta</option>
+              <option value="Transferencia">Transferencia</option>
+              <option value="Efectivo">Efectivo</option>
+              <option value="Otro">Otro</option>
+            </select>
+            <span class="error-text">Selecciona un método de pago.</span>
+          </div>
+        </div>
+
+        <div class="field">
+          <label for="observaciones">📝 Observaciones <span class="opt">(opcional)</span></label>
+          <textarea id="observaciones" name="observaciones" placeholder="Datos adicionales para tu factura (RFC, uso de CFDI, etc.)"></textarea>
+        </div>
+
+        <div class="field">
+          <label>🧾 Constancia de Situación Fiscal <span class="required">*</span></label>
+          <div class="upload-box" id="boxCSF">
+            <input type="file" id="csf" name="csf" accept=".pdf,.jpg,.jpeg,.png" required />
+            <div class="u-icon">📋</div>
+            <p><strong>Haz clic</strong> o arrastra tu archivo aquí</p>
+            <p class="file-name" id="nameCSF"></p>
+          </div>
+          <p class="hint">PDF, JPG o PNG · máx. 10 MB</p>
+          <span class="error-text" id="errCSF">Adjunta tu Constancia de Situación Fiscal.</span>
+        </div>
+
+        <div class="field">
+          <label>💳 Comprobante de pago <span class="required">*</span></label>
+          <div class="upload-box" id="boxPago">
+            <input type="file" id="comprobante" name="comprobante" accept=".pdf,.jpg,.jpeg,.png" required />
+            <div class="u-icon">🧾</div>
+            <p><strong>Haz clic</strong> o arrastra tu archivo aquí</p>
+            <p class="file-name" id="namePago"></p>
+          </div>
+          <p class="hint">PDF, JPG o PNG · máx. 10 MB</p>
+          <span class="error-text" id="errPago">Adjunta tu comprobante de pago.</span>
+        </div>
+
+        <button type="submit" id="submitBtn">
+          <span id="btnText">Enviar solicitud</span>
+          <div class="spinner" id="spinner"></div>
+        </button>
+      </form>
+
+      <div class="success-box" id="successBox">
+        <div class="check">✅</div>
+        <h2>¡Gracias!</h2>
+        <p>Hemos recibido tu solicitud de facturación. Tu factura será emitida en un plazo máximo de 24 horas.</p>
+      </div>
+
+      <footer class="note">Tus datos y documentos se tratan de forma confidencial.</footer>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
