@@ -64,15 +64,19 @@ body {
 
 .header { text-align: center; margin-bottom: 30px; }
 
-.header .icon {
-  font-size: 2.6rem;
-  display: inline-block;
-  animation: floatIcon 3s ease-in-out infinite;
+.header .logo {
+  max-width: 210px;
+  width: 100%;
+  height: auto;
+  display: block;
+  margin: 0 auto;
+  animation: logoPop .7s cubic-bezier(.34, 1.56, .64, 1) both;
 }
 
-@keyframes floatIcon {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-6px); }
+@keyframes logoPop {
+  0% { opacity: 0; transform: scale(.7) translateY(-10px); }
+  60% { opacity: 1; transform: scale(1.06) translateY(2px); }
+  100% { opacity: 1; transform: scale(1) translateY(0); }
 }
 
 .header h1 { color: var(--blue-800); font-size: 1.6rem; margin-top: 8px; font-weight: 700; }
